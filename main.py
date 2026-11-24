@@ -28,6 +28,8 @@ Pure Python 3.13 standard library, no network, deterministic.
 
 import os
 
+MAX_CHARS = 200
+
 LINE = (
     "We sell tiny coffin funerals for dead houseplants, with a printed "
     "eulogy, because guilty owners pay $19 for closure, film it, and "
@@ -41,8 +43,10 @@ def output_path() -> str:
 
 
 def main() -> None:
-    if not 1 <= len(LINE) <= 200 or not LINE.strip():
+    if not 1 <= len(LINE) <= MAX_CHARS or not LINE.strip():
         raise SystemExit("entry must be 1 to 200 characters of text")
+    if "\n" in LINE:
+        raise SystemExit("entry must be a single sentence on one line")
     path = output_path()
     parent = os.path.dirname(path)
     if parent:
